@@ -708,6 +708,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   applePrefab: {fileID: 1176590389456068029, guid: f2b5091612eb97145bc0f682d4d68a18, type: 3}
   gameField: {fileID: 1870644453}
+  rows: 10
+  columns: 18
+  cellWidth: 0.5
+  cellHeight: 0.5
 --- !u!4 &1155219315
 Transform:
   m_ObjectHideFlags: 0
