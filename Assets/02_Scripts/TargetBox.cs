@@ -84,7 +84,8 @@ public class TargetBox : MonoBehaviour
 
         if(sum == 10)
         {
-            foreach(Apple apple in applesInBox)
+            GameManager.Instance.AddScore(10);
+            foreach (Apple apple in applesInBox)
             {
                 Destroy(apple.gameObject);
             }
