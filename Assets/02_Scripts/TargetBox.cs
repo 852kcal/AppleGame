@@ -52,6 +52,8 @@ public class TargetBox : MonoBehaviour
 
             CheckApplesSum();
 
+            UpdateSelectionBox(Vector2.zero, Vector2.zero);
+
             lineRenderer.enabled = false;
         }
     }
@@ -75,7 +77,7 @@ public class TargetBox : MonoBehaviour
     }
 
     public void CheckApplesSum()
-    {
+    {        
         int sum = 0;
         foreach(Apple apple in applesInBox)
         {
@@ -91,5 +93,6 @@ public class TargetBox : MonoBehaviour
             }
             applesInBox.Clear();
         }
+        
     }
 }
