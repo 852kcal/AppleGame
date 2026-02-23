@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public Text text_Timer;
 
     public Slider slider_Timer;
+    public GameObject panel_GameOver;
 
     static GameManager instance;
     public static GameManager Instance
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         score = 0;
-        time = 110;
+        time = 10;
     }
 
     // Update is called once per frame
@@ -53,14 +54,15 @@ public class GameManager : MonoBehaviour
 
     void UpdateTime()
     {
-        time += Time.deltaTime;
+        time -= Time.deltaTime; 
+        if (time < 0) time = 0;
         text_Timer.text = time.ToString("000.00");
         slider_Timer.value = time;
     }
 
     void CheckTimeOver()
     {
-        if (time >= slider_Timer.maxValue)
+        if (time <= 0)
         {
             GameOver();
         }
@@ -69,6 +71,9 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         Debug.Log("Game Over!");
+
+        panel_GameOver.SetActive(true);
+
         Time.timeScale = 0f;        
     }
 }
