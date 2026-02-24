@@ -5,6 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class MainSceneManager : MonoBehaviour
 {
+    static MainSceneManager instance;
+    public static MainSceneManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<MainSceneManager>();
+                DontDestroyOnLoad(instance.gameObject);
+            }
+            return instance;
+        }
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -16,18 +30,21 @@ public class MainSceneManager : MonoBehaviour
     {
         
     }
-
-    public void onClickStartBtn()
+    public void OnClickMainBtn()
     {
-        SceneManager.LoadScene("GameScene");
+        LoadMainScene();
+    }
+    public void OnClickStartBtn()
+    {
+        LoadPlayScene();
     }
 
-    public void onClickShopBtn()
+    public void OnClickShopBtn()
     {
-        SceneManager.LoadScene("ShopScene");
+        LoadShopScene();
     }
 
-    public void onClickExitBtn()
+    public void OnClickExitBtn()
     {
         #if UNITY_EDITOR 
         UnityEditor.EditorApplication.isPlaying = false; 
@@ -36,5 +53,20 @@ public class MainSceneManager : MonoBehaviour
         #endif
 
         Application.Quit();
+    }
+
+    void LoadMainScene()
+    {
+        SceneManager.LoadScene("00_Main");
+    }
+    
+    void LoadPlayScene()
+    {
+        SceneManager.LoadScene("01_Play");
+    }
+
+    void LoadShopScene()
+    {
+        SceneManager.LoadScene("03_Shop");
     }
 }

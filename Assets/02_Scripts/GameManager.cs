@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public Text text_Score;
     public Text text_Timer;
 
+    public Text text_GameOverScore;
+
     public Slider slider_Timer;
     public GameObject panel_GameOver;
 
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         score = 0;
-        time = 10;
+        time = 120;
     }
 
     // Update is called once per frame
@@ -49,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateScore()
     {
-        text_Score.text = "SCORE: " + score;
+        text_Score.text = "점수: " + score;
     }
 
     void UpdateTime()
@@ -62,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     void CheckTimeOver()
     {
-        if (time <= 0)
+        if (time <= 0)        
         {
             GameOver();
         }
@@ -71,6 +73,8 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         Debug.Log("Game Over!");
+
+        text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("000.00");
 
         panel_GameOver.SetActive(true);
 
