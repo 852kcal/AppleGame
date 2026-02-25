@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("000.00");
 
         panel_GameOver.SetActive(true);
-
+        
         Time.timeScale = 0f;        
     }
 }

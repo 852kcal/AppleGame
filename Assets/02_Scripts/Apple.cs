@@ -12,19 +12,21 @@ public class Apple : MonoBehaviour
     public Transform[] sprites;
 
     public TextMeshPro numberTxt;
-    public SpriteRenderer spriteRender;
+    //public SpriteRenderer spriteRender;
 
     // Start is called before the first frame update
     void Start()
     {
         SetNumber(); 
                 
+        /*
         spriteRender = GetSpriteRender();
         if(spriteRender == null)
         {
             Debug.Log("spriteRender null!");
             return;
         }
+        */
 
         offOutLine();
     }
@@ -59,11 +61,11 @@ public class Apple : MonoBehaviour
 
     public void onOutLine()
     {
-        spriteRender.material.SetFloat("_OutlineEnabled", 1);
+        //spriteRender.material.SetFloat("_OutlineEnabled", 1);
     }
 
     public void offOutLine()
     {
-        spriteRender.material.SetFloat("_OutlineEnabled", 0);
+        //spriteRender.material.SetFloat("_OutlineEnabled", 0);
     }
 }

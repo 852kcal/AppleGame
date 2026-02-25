@@ -33,6 +33,7 @@ Transform:
   - {fileID: 8672474778147109952}
   - {fileID: 917363613553713516}
   - {fileID: 7947288245092535631}
+  - {fileID: 7236223316818813926}
   - {fileID: 3718716986283066949}
   - {fileID: 3459557354851579092}
   - {fileID: 1576795434198662493}
@@ -57,7 +58,6 @@ MonoBehaviour:
   - {fileID: 3459557354851579092}
   - {fileID: 1576795434198662493}
   numberTxt: {fileID: 6372072148066175035}
-  spriteRender: {fileID: 0}
 --- !u!1 &2095308900502174610
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7947288245092535631
 Transform:
   m_ObjectHideFlags: 0
@@ -296,8 +296,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1627660071
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 2110179307, guid: cd904f93fd7ce4d43adff9b3a0054e50, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -462,8 +462,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1627660071
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6372072148066175035
@@ -495,8 +495,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4294901826
+  m_fontColor: {r: 0.25898027, g: 0, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -513,8 +513,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -642,3 +642,99 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &7608309640480001833
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 239979127386916854}
+    m_Modifications:
+    - target: {fileID: 1007152147719549167, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_Name
+      value: Apple_Red_Half
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1007152147719549167, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4466738722196199551}
+  m_SourcePrefab: {fileID: 100100000, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+--- !u!4 &7236223316818813926 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1007152147720039631, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+  m_PrefabInstance: {fileID: 7608309640480001833}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7236223316819050438 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1007152147719549167, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+  m_PrefabInstance: {fileID: 7608309640480001833}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4466738722196199551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7236223316819050438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276ac9f975332ae46948b0191c2cad4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sortingLayerName: Apple
+  _sortingOrder: -1

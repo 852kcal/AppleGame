@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Apple
+    uniqueID: 2667307225
+    locked: 0
