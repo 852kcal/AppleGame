@@ -9,26 +9,28 @@ public class Apple : MonoBehaviour
     [Range(1f,10f)]
     public int number;
 
-    public Transform[] sprites;
-
     public TextMeshPro numberTxt;
+
+    public Outline outline;
+
+    private float outlineWidth = 3f;
+
     //public SpriteRenderer spriteRender;
+
+    private void Awake()
+    {
+        outline = GetComponentInChildren<Outline>();
+
+        outline.OutlineColor = Color.red;
+        outline.OutlineWidth = outlineWidth;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        SetNumber(); 
-                
-        /*
-        spriteRender = GetSpriteRender();
-        if(spriteRender == null)
-        {
-            Debug.Log("spriteRender null!");
-            return;
-        }
-        */
+        SetNumber();
 
-        offOutLine();
+        OffOutline();
     }
 
     // Update is called once per frame
@@ -44,28 +46,25 @@ public class Apple : MonoBehaviour
         numberTxt.text = number.ToString();
     }
 
-    public SpriteRenderer GetSpriteRender()
+    public MeshRenderer GetMeshRender()
     {
-        SpriteRenderer spriteRen = null;
-
-        foreach (Transform t in sprites)
-        {
-            if (t.gameObject.activeSelf)
+        MeshRenderer meshRen = null;
+        foreach (Transform t in transform)        {
+            if (t.gameObject.activeSelf && t.CompareTag("Apple"))
             {
-                spriteRen = t.GetComponent<SpriteRenderer>();
+                meshRen = t.GetComponent<MeshRenderer>();
             }
         }
-
-        return spriteRen;
+        return meshRen;
     }
 
-    public void onOutLine()
+    public void OnOutline()
     {
-        //spriteRender.material.SetFloat("_OutlineEnabled", 1);
+        outline.OutlineWidth = outlineWidth;
     }
 
-    public void offOutLine()
+    public void OffOutline()
     {
-        //spriteRender.material.SetFloat("_OutlineEnabled", 0);
+        outline.OutlineWidth = 0f;
     }
 }

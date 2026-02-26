@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -22,7 +23,6 @@ public class TargetBox : MonoBehaviour
         lineRenderer.positionCount = 4; 
         lineRenderer.loop = true; 
         lineRenderer.SetPositions(corners);
-
     }
 
     private void Update()
@@ -69,10 +69,10 @@ public class TargetBox : MonoBehaviour
             if (selectRect.Contains(apple.transform.position))
             {
                 applesInBox.Add(apple);
-                apple.onOutLine();
+                apple.OnOutline();
             }
             else
-                apple.offOutLine();
+                apple.OffOutline();
         }
     }
 
@@ -86,13 +86,20 @@ public class TargetBox : MonoBehaviour
 
         if(sum == 10)
         {
-            GameManager.Instance.AddScore(10);
+            float value = 10f * Mathf.Pow(applesInBox.Count - 1, 1.5f);
+            GameManager.Instance.AddScore((int)value);
             foreach (Apple apple in applesInBox)
             {
                 Destroy(apple.gameObject);
             }
             applesInBox.Clear();
+
+            return;
         }
-        
+
+        foreach(Apple apple in applesInBox)
+        {
+            apple.OffOutline();
+        }        
     }
 }
