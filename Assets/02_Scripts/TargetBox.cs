@@ -12,7 +12,8 @@ public class TargetBox : MonoBehaviour
     private Vector2 endPos;
     private Rect selectRect;
     public LineRenderer lineRenderer; 
-    
+    public SpriteRenderer boxSprite; 
+
     void UpdateSelectionBox(Vector2 startPos, Vector2 endPos) 
     { 
         Vector3[] corners = new Vector3[4]; 
@@ -23,6 +24,9 @@ public class TargetBox : MonoBehaviour
         lineRenderer.positionCount = 4; 
         lineRenderer.loop = true; 
         lineRenderer.SetPositions(corners);
+
+        boxSprite.transform.position = new Vector3((startPos.x + endPos.x) / 2f, (startPos.y + endPos.y) / 2f, 0);
+        boxSprite.transform.localScale = new Vector3(Mathf.Abs(endPos.x - startPos.x), Mathf.Abs(endPos.y - startPos.y), 1);
     }
 
     private void Update()
@@ -32,6 +36,7 @@ public class TargetBox : MonoBehaviour
             startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             lineRenderer.enabled = true;
+            boxSprite.enabled = true;
 
         } else if (Input.GetMouseButton(0))
         {
@@ -55,6 +60,7 @@ public class TargetBox : MonoBehaviour
             UpdateSelectionBox(Vector2.zero, Vector2.zero);
 
             lineRenderer.enabled = false;
+            boxSprite.enabled = false;
         }
     }
 

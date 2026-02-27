@@ -400,7 +400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sortingLayerName: Apple
-  _sortingOrder: -1
+  _sortingOrder: 0
 --- !u!114 &1141325742727101422
 MonoBehaviour:
   m_ObjectHideFlags: 0
