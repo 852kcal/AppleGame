@@ -9,11 +9,14 @@ public class Apple : MonoBehaviour
     [Range(1f,10f)]
     public int number;
 
+    public Vector2Int gridPos;
+
     public TextMeshPro numberTxt;
 
     public Outline outline;
 
     private float outlineWidth = 3f;
+        
 
     //public SpriteRenderer spriteRender;
 
