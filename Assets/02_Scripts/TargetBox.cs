@@ -10,7 +10,11 @@ public class TargetBox : MonoBehaviour
 
     private Vector2 startPos;
     private Vector2 endPos;
-    private Rect selectRect;
+
+    private Vector2Int startGrid;
+    private Vector2Int endGrid;
+
+    //private Rect selectRect;
     public LineRenderer lineRenderer; 
     public SpriteRenderer boxSprite; 
 
@@ -34,19 +38,22 @@ public class TargetBox : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {            
             startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
             lineRenderer.enabled = true;
             boxSprite.enabled = true;
 
         } else if (Input.GetMouseButton(0))
         {
             endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            endGrid = GridManager.Instance.GetGridPosition(endPos);
+
+            /*
             selectRect = new Rect(
                 Mathf.Min(startPos.x, endPos.x),
                 Mathf.Min(startPos.y,endPos.y),
                 Mathf.Abs(startPos.x - endPos.x),
                 Mathf.Abs(startPos.y - endPos.y)
                 );
+            */
 
             UpdateSelectionBox(startPos, endPos);
             CheckApplesInRect();
@@ -54,7 +61,6 @@ public class TargetBox : MonoBehaviour
         }else if (Input.GetMouseButtonUp(0))
         {
             endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
             CheckApplesSum();
 
             UpdateSelectionBox(Vector2.zero, Vector2.zero);
@@ -66,10 +72,39 @@ public class TargetBox : MonoBehaviour
 
     public void CheckApplesInRect()
     {
-        Apple[] apples = FindObjectsOfType<Apple>();
+        //Apple[] apples = FindObjectsOfType<Apple>();
         
         applesInBox.Clear();
 
+        startGrid = GridManager.Instance.GetGridPosition(startPos);
+        endGrid = GridManager.Instance.GetGridPosition(endPos);
+
+        int minX = Mathf.Min(startGrid.x, endGrid.x);
+        int maxX = Mathf.Max(startGrid.x, endGrid.x);
+        int minY = Mathf.Min(startGrid.y, endGrid.y);
+        int maxY = Mathf.Max(startGrid.y, endGrid.y);
+
+        foreach(Apple apple in GridManager.Instance.GetAllApple())
+        {
+            if (apple == null) continue;
+            
+            apple.OffOutline();
+        }
+
+        for (int x = minX; x<=maxX; x++)
+        {
+            for(int y = minY; y<=maxY; y++)
+            {
+                Apple apple = GridManager.Instance.GetApple(x, y);
+                if(apple != null)
+                {
+                    applesInBox.Add(apple);
+                    apple.OnOutline();
+                }                
+            }
+        }
+
+        /*
         foreach (Apple apple in apples)
         {
             if (selectRect.Contains(apple.transform.position))
@@ -80,6 +115,7 @@ public class TargetBox : MonoBehaviour
             else
                 apple.OffOutline();
         }
+        */
     }
 
     public void CheckApplesSum()
@@ -94,10 +130,7 @@ public class TargetBox : MonoBehaviour
         {
             float value = 10f * Mathf.Pow(applesInBox.Count - 1, 1.5f);
             GameManager.Instance.AddScore((int)value);
-            foreach (Apple apple in applesInBox)
-            {
-                Destroy(apple.gameObject);
-            }
+            GridManager.Instance.RemoveApples(applesInBox);
             applesInBox.Clear();
 
             return;

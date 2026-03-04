@@ -77,4 +77,26 @@ public class GameManager : MonoBehaviour
         panel_GameOver.SetActive(true);
         text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("000.00");        
     }
+
+    public void UseItem(int idx)
+    {
+        switch (idx)
+        {
+            case 0:
+                List<Apple> apple_list = GridManager.Instance.FindOneValidPackage();
+
+                //연출
+                foreach (Apple apple in apple_list)
+                {                    
+                    apple.GetMeshRender().enabled = true;
+                    apple.OnOutline();
+                }
+
+                break;
+            case 1:
+                break;
+            default:
+                break;
+        }
+    }
 }
