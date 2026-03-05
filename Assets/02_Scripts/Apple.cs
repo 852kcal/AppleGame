@@ -70,4 +70,13 @@ public class Apple : MonoBehaviour
     {
         outline.OutlineWidth = 0f;
     }
+
+    private void OnMouseDown()
+    {
+        if(GameManager.Instance.state == GameState.Remove)
+        {
+            GridManager.Instance.RemoveApple(this);
+            GameManager.Instance.SetState(GameState.Normal);
+        } 
+    }
 }

@@ -118,4 +118,20 @@ public class GridManager : MonoBehaviour
 
         return null;
     }
+
+    public void RerollNumbers()
+    {
+        bool vaild = false;
+
+        while (!vaild)
+        {
+            foreach (Apple apple in appleGrid)
+            {
+                if (apple != null)
+                    apple.SetNumber();
+            }
+
+            vaild = FindOneValidPackage().Count > 0;
+        }
+    }
 }

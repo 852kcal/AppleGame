@@ -2,11 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+public enum GameState
+{
+    Normal,
+    Dragging,
+    Remove,
+    Shuffle,
+    GameOver
+}
 
 public class GameManager : MonoBehaviour
-{
+{    
     private int score = 0;
     private float time = 0f;
+
+    public GameState state = GameState.Normal;
 
     public Text text_Score;
     public Text text_Timer;
@@ -41,6 +51,11 @@ public class GameManager : MonoBehaviour
     {
         UpdateTime();
         CheckTimeOver();
+    }
+
+    public void SetState(GameState newState)
+    {
+        state = newState;
     }
 
     public void AddScore(int s)
@@ -94,9 +109,18 @@ public class GameManager : MonoBehaviour
 
                 break;
             case 1:
+                GridManager.Instance.RerollNumbers();
+                break;
+            case 2:
+                UseRemoveItem();                
                 break;
             default:
                 break;
         }
+    }
+
+    public void UseRemoveItem()
+    {
+        SetState(GameState.Remove);
     }
 }

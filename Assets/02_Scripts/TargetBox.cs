@@ -35,6 +35,11 @@ public class TargetBox : MonoBehaviour
 
     private void Update()
     {
+        if(GameManager.Instance.state != GameState.Normal)
+        {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {            
             startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
