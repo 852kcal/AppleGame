@@ -33,6 +33,13 @@ public class TargetBox : MonoBehaviour
         boxSprite.transform.localScale = new Vector3(Mathf.Abs(endPos.x - startPos.x), Mathf.Abs(endPos.y - startPos.y), 1);
     }
 
+    private void Start()
+    {
+        UpdateSelectionBox(Vector2.zero, Vector2.zero);
+        lineRenderer.enabled = false;
+        boxSprite.enabled = false;
+    }
+
     private void Update()
     {
         if(GameManager.Instance.state != GameState.Normal)
@@ -43,6 +50,7 @@ public class TargetBox : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {            
             startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            startGrid = GridManager.Instance.GetGridPosition(startPos);
             lineRenderer.enabled = true;
             boxSprite.enabled = true;
 
@@ -81,7 +89,6 @@ public class TargetBox : MonoBehaviour
         
         applesInBox.Clear();
 
-        startGrid = GridManager.Instance.GetGridPosition(startPos);
         endGrid = GridManager.Instance.GetGridPosition(endPos);
 
         int minX = Mathf.Min(startGrid.x, endGrid.x);
@@ -134,7 +141,9 @@ public class TargetBox : MonoBehaviour
         if(sum == 10)
         {
             float value = 10f * Mathf.Pow(applesInBox.Count - 1, 1.5f);
+            value = (int)(value * (1+ GameManager.Instance.combo * 0.5f));
             GameManager.Instance.AddScore((int)value);
+            GameManager.Instance.AddCombo();
             GridManager.Instance.RemoveApples(applesInBox);
             applesInBox.Clear();
 

@@ -15,7 +15,7 @@ public class Apple : MonoBehaviour
 
     public Outline outline;
 
-    private float outlineWidth = 3f;
+    private float outlineWidth = 5f;
         
 
     //public SpriteRenderer spriteRender;
@@ -24,7 +24,7 @@ public class Apple : MonoBehaviour
     {
         outline = GetComponentInChildren<Outline>();
 
-        outline.OutlineColor = Color.red;
+        outline.OutlineColor = Color.yellow;
         outline.OutlineWidth = outlineWidth;
     }
 
@@ -73,7 +73,7 @@ public class Apple : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(GameManager.Instance.state == GameState.Remove)
+        if (GameManager.Instance.state == GameState.Remove)
         {
             GridManager.Instance.RemoveApple(this);
             GameManager.Instance.SetState(GameState.Normal);

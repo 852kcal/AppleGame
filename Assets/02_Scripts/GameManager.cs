@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private float time = 0f;
 
+    public int combo = 0;
+    public float comboTimer = 0f;
+    public float comboDuration = 3f;
+
     public GameState state = GameState.Normal;
 
     public Text text_Score;
@@ -42,6 +46,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SetState(GameState.Normal);
+
         score = 0;
         time = 120;
     }
@@ -51,6 +57,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateTime();
         CheckTimeOver();
+        CheckCombo();
     }
 
     public void SetState(GameState newState)
@@ -89,6 +96,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Over!");
 
+        SetState(GameState.GameOver);
+
         panel_GameOver.SetActive(true);
         text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("000.00");        
     }
@@ -122,5 +131,34 @@ public class GameManager : MonoBehaviour
     public void UseRemoveItem()
     {
         SetState(GameState.Remove);
+    }
+
+    public void CheckCombo()
+    {
+        if(combo > 0)
+        {
+            comboTimer -= Time.deltaTime;
+
+            if (comboTimer <= 0)
+            {
+                ResetCombo();
+            }
+        }
+    }
+
+    public void ResetCombo()
+    {
+        combo = 0;
+        comboTimer = comboDuration;
+
+        Debug.Log("Combo reset");
+    }
+
+    public void AddCombo()
+    {
+        combo++;
+        comboTimer = comboDuration - (float)combo*0.1f;
+        
+        Debug.Log("Combo: " + combo + " Timer:" + comboTimer);
     }
 }
