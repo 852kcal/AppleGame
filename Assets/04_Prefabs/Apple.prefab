@@ -200,7 +200,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8434054131184343031}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -251,7 +251,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1627660071
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6372072148066175035
 MonoBehaviour:
@@ -417,6 +417,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -5543349752925202341, guid: a0c98b13a8a7df544a04a3fbec8e630e, type: 3}
+    - target: {fileID: 1007152147721809455, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 87b05a65b3978494193ece934f6733d2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -427,9 +431,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1007152147719549167, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1141325742727101422}
-    - targetCorrespondingSourceObject: {fileID: 1007152147719549167, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6146093882925909644}
   m_SourcePrefab: {fileID: 100100000, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
 --- !u!4 &7236223316818813926 stripped
 Transform:
@@ -473,16 +474,3 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &6146093882925909644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7236223316819050438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ece686b0c9a2a409ca4767f60ce09f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 100

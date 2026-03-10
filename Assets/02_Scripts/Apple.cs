@@ -79,4 +79,5 @@ public class Apple : MonoBehaviour
             GameManager.Instance.SetState(GameState.Normal);
         } 
     }
+    
 }

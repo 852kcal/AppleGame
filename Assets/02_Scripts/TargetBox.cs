@@ -18,6 +18,8 @@ public class TargetBox : MonoBehaviour
     public LineRenderer lineRenderer; 
     public SpriteRenderer boxSprite; 
 
+
+
     void UpdateSelectionBox(Vector2 startPos, Vector2 endPos) 
     { 
         Vector3[] corners = new Vector3[4]; 

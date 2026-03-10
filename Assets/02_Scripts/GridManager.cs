@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,9 @@ public class GridManager : MonoBehaviour
     public static GridManager Instance;
 
     public Apple[,] appleGrid;
+
+    public GameObject deleteEffect;
+    public GameObject appleSplitPrefab;
 
     private void Awake()
     {
@@ -68,6 +72,8 @@ public class GridManager : MonoBehaviour
         {
             appleGrid[apple.gridPos.x, apple.gridPos.y] = null;
             Destroy(apple.gameObject);
+            SplitApple(apple);
+            Instantiate(deleteEffect, apple.transform.position, Quaternion.identity);
         }
     }
 
@@ -75,6 +81,9 @@ public class GridManager : MonoBehaviour
     {
         appleGrid[apple.gridPos.x, apple.gridPos.y] = null;
         Destroy(apple.gameObject);
+        SplitApple(apple);
+        Instantiate(deleteEffect, apple.transform.position, Quaternion.identity);
+
     }
 
     public bool HasValidPackage()
@@ -133,5 +142,30 @@ public class GridManager : MonoBehaviour
 
             vaild = FindOneValidPackage().Count > 0;
         }
+    }
+
+    public void SplitApple(Apple apple)
+    {
+        GameObject split = Instantiate(appleSplitPrefab, apple.transform.position, Quaternion.identity);
+
+        Rigidbody[] rbs = split.GetComponentsInChildren<Rigidbody>();
+
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.isKinematic = false;
+
+            Vector3 force = new Vector3(
+                Random.Range(-1.5f, 1.5f),
+                Random.Range(2f, 3f),
+                Random.Range(-0.5f, 0.5f)
+            );
+
+            rb.AddForce(force, ForceMode.Impulse);
+
+            Vector3 torque = Random.insideUnitSphere * 8f;
+            rb.AddTorque(torque, ForceMode.Impulse);
+        }
+
+        Destroy(split, 3f);
     }
 }
