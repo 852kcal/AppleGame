@@ -1,3 +1,4 @@
+using CartoonFX;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,10 @@ public class GameManager : MonoBehaviour
     public Text text_GameOverScore;
 
     public Slider slider_Timer;
+    public Slider slider_ComboTimer;
     public GameObject panel_GameOver;
+
+    public GameObject comboEffect;
 
     static GameManager instance;
     public static GameManager Instance
@@ -47,6 +51,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetState(GameState.Normal);
+
+        slider_ComboTimer.gameObject.SetActive(false);
 
         score = 0;
         time = 120;
@@ -138,6 +144,7 @@ public class GameManager : MonoBehaviour
         if(combo > 0)
         {
             comboTimer -= Time.deltaTime;
+            slider_ComboTimer.value = comboTimer;
 
             if (comboTimer <= 0)
             {
@@ -151,14 +158,37 @@ public class GameManager : MonoBehaviour
         combo = 0;
         comboTimer = comboDuration;
 
-        Debug.Log("Combo reset");
+        slider_ComboTimer.gameObject.SetActive(false);
     }
 
     public void AddCombo()
     {
+        slider_ComboTimer.gameObject.SetActive(true);
+
         combo++;
-        comboTimer = comboDuration - (float)combo*0.1f;
-        
+        comboTimer = comboDuration;
         Debug.Log("Combo: " + combo + " Timer:" + comboTimer);
+    }
+
+    public void playComboEffect(Vector3 pos)
+    {        
+        if (combo < 2)
+            return;        
+
+        GameObject obj = Instantiate(comboEffect, pos, Quaternion.identity);
+
+        CFXR_ParticleText text = obj.GetComponent<CFXR_ParticleText>();
+
+        text.UpdateText(combo + " COMBO");
+
+        var renderers = obj.GetComponentsInChildren<ParticleSystemRenderer>();
+
+        foreach (var r in renderers)
+        {
+            r.sortingLayerName = "TargetBox";
+            r.sortingOrder = 10;
+        }
+
+        Destroy(obj,1f);
     }
 }

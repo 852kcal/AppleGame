@@ -16,22 +16,23 @@ public class TargetBox : MonoBehaviour
 
     //private Rect selectRect;
     public LineRenderer lineRenderer; 
-    public SpriteRenderer boxSprite; 
+    public SpriteRenderer boxSprite;
 
+    private float targetBox_z = -5f;
 
 
     void UpdateSelectionBox(Vector2 startPos, Vector2 endPos) 
     { 
         Vector3[] corners = new Vector3[4]; 
-        corners[0] = new Vector3(startPos.x, startPos.y, 0);
-        corners[1] = new Vector3(endPos.x, startPos.y, 0); 
-        corners[2] = new Vector3(endPos.x, endPos.y, 0); 
-        corners[3] = new Vector3(startPos.x, endPos.y, 0); 
+        corners[0] = new Vector3(startPos.x, startPos.y, targetBox_z);
+        corners[1] = new Vector3(endPos.x, startPos.y, targetBox_z); 
+        corners[2] = new Vector3(endPos.x, endPos.y, targetBox_z); 
+        corners[3] = new Vector3(startPos.x, endPos.y, targetBox_z); 
         lineRenderer.positionCount = 4; 
         lineRenderer.loop = true; 
         lineRenderer.SetPositions(corners);
 
-        boxSprite.transform.position = new Vector3((startPos.x + endPos.x) / 2f, (startPos.y + endPos.y) / 2f, 0);
+        boxSprite.transform.position = new Vector3((startPos.x + endPos.x) / 2f, (startPos.y + endPos.y) / 2f, targetBox_z);
         boxSprite.transform.localScale = new Vector3(Mathf.Abs(endPos.x - startPos.x), Mathf.Abs(endPos.y - startPos.y), 1);
     }
 
@@ -146,6 +147,9 @@ public class TargetBox : MonoBehaviour
             value = (int)(value * (1+ GameManager.Instance.combo * 0.5f));
             GameManager.Instance.AddScore((int)value);
             GameManager.Instance.AddCombo();
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            pos.z = -8;
+            GameManager.Instance.playComboEffect(pos);
             GridManager.Instance.RemoveApples(applesInBox);
             applesInBox.Clear();
 
