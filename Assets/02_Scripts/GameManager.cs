@@ -1,6 +1,7 @@
 using CartoonFX;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public enum GameState
@@ -18,13 +19,18 @@ public class GameManager : MonoBehaviour
     private float time = 0f;
 
     public int combo = 0;
+    private int maxCombo = 0;
     public float comboTimer = 0f;
     public float comboDuration = 3f;
 
     public GameState state = GameState.Normal;
 
-    public Text text_Score;
-    public Text text_Timer;
+    public TextMeshProUGUI text_PreScore;
+    public TextMeshProUGUI text_PlusScore;
+    public TextMeshProUGUI text_Timer;
+
+    public TextMeshProUGUI text_PreCombo;
+    public TextMeshProUGUI text_MaxCombo;
 
     public Text text_GameOverScore;
 
@@ -74,19 +80,29 @@ public class GameManager : MonoBehaviour
     public void AddScore(int s)
     {
         score += s;
-        UpdateScore();
+        UpdateScore(s);
     }
 
-    void UpdateScore()
+    void UpdateScore(int s)
     {
-        text_Score.text = "점수: " + score;
+        text_PlusScore.text = "+" + s.ToString("N0");
+        text_PreScore.text = score.ToString("N0");
+    }
+    void UpdateCombo()
+    {
+        text_PreCombo.text = combo.ToString();
+        text_MaxCombo.text = maxCombo.ToString();
     }
 
     void UpdateTime()
     {
         time -= Time.deltaTime; 
         if (time < 0) time = 0;
-        text_Timer.text = time.ToString("000.00");
+
+        int minutes = (int)(time / 60);
+        int seconds = (int)(time % 60);
+
+        text_Timer.text = string.Format("[{0:00}:{1:00}]", minutes, seconds);
         slider_Timer.value = time;
     }
 
@@ -105,7 +121,7 @@ public class GameManager : MonoBehaviour
         SetState(GameState.GameOver);
 
         panel_GameOver.SetActive(true);
-        text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("000.00");        
+        text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("[00.00]");        
     }
 
     public void UseItem(int idx)
@@ -167,7 +183,11 @@ public class GameManager : MonoBehaviour
 
         combo++;
         comboTimer = comboDuration;
-        Debug.Log("Combo: " + combo + " Timer:" + comboTimer);
+
+        if (maxCombo < combo)
+            maxCombo = combo;
+
+        UpdateCombo();
     }
 
     public void playComboEffect(Vector3 pos)

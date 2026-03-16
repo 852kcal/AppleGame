@@ -40,7 +40,7 @@ public class GridManager : MonoBehaviour
 
             }
         }
-        gameField.transform.position = new Vector3(-(columns-1)*cellWidth/2f, -(rows-1)*cellHeight/2f, 0);
+        gameField.transform.position = new Vector3(-(columns-1)*cellWidth/2f +0.3f, -(rows-1)*cellHeight/2f, 0);
     }
 
     public Apple GetApple(int x, int y)
