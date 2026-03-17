@@ -1,4 +1,6 @@
 using CartoonFX;
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,44 +16,49 @@ public enum GameState
 }
 
 public class GameManager : MonoBehaviour
-{    
-    private int score = 0;
-    private float time = 0f;
-
-    public int combo = 0;
-    private int maxCombo = 0;
-    public float comboTimer = 0f;
-    public float comboDuration = 3f;
-
-    public GameState state = GameState.Normal;
-
-    public TextMeshProUGUI text_PreScore;
-    public TextMeshProUGUI text_PlusScore;
-    public TextMeshProUGUI text_Timer;
-
-    public TextMeshProUGUI text_PreCombo;
-    public TextMeshProUGUI text_MaxCombo;
-
-    public Text text_GameOverScore;
-
-    public Slider slider_Timer;
-    public Slider slider_ComboTimer;
-    public GameObject panel_GameOver;
-
-    public GameObject comboEffect;
-
-    static GameManager instance;
+{
+    // --- 싱글톤 ---
+    private static GameManager instance;
     public static GameManager Instance
     {
         get
         {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<GameManager>();
-            }
+            if (instance == null) instance = FindObjectOfType<GameManager>();
             return instance;
         }
     }
+
+    [Header("Game Data & Logic")]
+    private int score = 0;
+    private float time = 0f;    
+    private int maxCombo = 0;
+    public int combo = 0;
+    public float comboTimer = 0f;
+    public float comboDuration = 3f;
+    public GameState state = GameState.Normal;
+
+    [Header("Score & Combo UI (TMP)")]
+    public TextMeshProUGUI text_PreScore;
+    public TextMeshProUGUI text_PlusScore;
+    public TextMeshProUGUI text_Timer;
+    public TextMeshProUGUI text_PreCombo;
+    public TextMeshProUGUI text_MaxCombo;
+
+    [Header("Game Over UI")]
+    public Text text_GameOverScore; // 일반 UI Text
+    public GameObject panel_GameOver;
+
+    [Header("Progress Bars")]
+    public Slider slider_Timer;
+    public Slider slider_ComboTimer;
+
+    [Header("Effects")]
+    public GameObject comboEffect;
+
+    [Header("Item Buttons (Shortcuts)")]
+    public Button hintButton;   // 단축키 1
+    public Button shakeButton;  // 단축키 2
+    public Button biteButton;   // 단축키 3
 
     // Start is called before the first frame update
     void Start()
@@ -70,8 +77,20 @@ public class GameManager : MonoBehaviour
         UpdateTime();
         CheckTimeOver();
         CheckCombo();
+        ShortCutKeyDown();
     }
 
+    public void ShortCutKeyDown()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && hintButton != null)
+            hintButton.onClick.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.W) && shakeButton != null)
+            shakeButton.onClick.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.E) && biteButton != null)
+            biteButton.onClick.Invoke();
+    }
     public void SetState(GameState newState)
     {
         state = newState;
@@ -108,7 +127,7 @@ public class GameManager : MonoBehaviour
 
     void CheckTimeOver()
     {
-        if (time <= 0)        
+        if (time <= 0) 
         {
             GameOver();
         }
@@ -124,18 +143,21 @@ public class GameManager : MonoBehaviour
         text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("[00.00]");        
     }
 
-    public void UseItem(int idx)
+    public void UseItem(ItemData data)
     {
-        switch (idx)
+        data.amount--;
+        switch (data.itemIndex)
         {
             case 0:
                 List<Apple> apple_list = GridManager.Instance.FindOneValidPackage();
 
                 //연출
                 foreach (Apple apple in apple_list)
-                {                    
-                    apple.GetMeshRender().enabled = true;
-                    apple.OnOutline();
+                {
+                    apple.transform.DOKill();
+
+                    apple.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.5f, 5, 0.5f)
+                    .SetLoops(-1, LoopType.Restart);
                 }
 
                 break;
