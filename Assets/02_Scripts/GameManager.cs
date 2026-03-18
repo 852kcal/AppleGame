@@ -105,7 +105,18 @@ public class GameManager : MonoBehaviour
     void UpdateScore(int s)
     {
         text_PlusScore.text = "+" + s.ToString("N0");
-        text_PreScore.text = score.ToString("N0");
+        //text_PreScore.text = score.ToString("N0");
+
+        int disScore = score - s;
+
+        text_PreScore.DOKill();
+
+        DOTween.To(() => disScore, x => disScore = x, score, 0.5f)
+            .OnUpdate(() => {
+                text_PreScore.text = disScore.ToString("N0"); // √µ ¥‹¿ß Ω∞«•
+            })
+            .SetTarget(score);
+
     }
     void UpdateCombo()
     {
@@ -155,6 +166,8 @@ public class GameManager : MonoBehaviour
                 foreach (Apple apple in apple_list)
                 {
                     apple.transform.DOKill();
+
+                    apple.transform.localScale = Vector3.one;
 
                     apple.transform.DOPunchScale(new Vector3(0.3f, 0.3f, 0.3f), 0.5f, 5, 0.5f)
                     .SetLoops(-1, LoopType.Restart);

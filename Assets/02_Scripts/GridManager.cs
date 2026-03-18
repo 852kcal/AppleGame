@@ -24,6 +24,7 @@ public class GridManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DOTween.SetTweensCapacity(800, 200);
     }
     // Start is called before the first frame update
     void Start()
@@ -92,15 +93,14 @@ public class GridManager : MonoBehaviour
     {
         foreach (Apple apple in apples)
         {
-            appleGrid[apple.gridPos.x, apple.gridPos.y] = null;
-            Destroy(apple.gameObject);
-            SplitApple(apple);
-            Instantiate(deleteEffect, apple.transform.position, Quaternion.identity);
+            RemoveApple(apple);
         }
     }
 
     public void RemoveApple(Apple apple)
     {
+        apple.transform.DOKill();
+
         appleGrid[apple.gridPos.x, apple.gridPos.y] = null;
         Destroy(apple.gameObject);
         SplitApple(apple);
