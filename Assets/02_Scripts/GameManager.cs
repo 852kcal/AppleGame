@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public enum GameState
 {
+    Loading,
     Normal,
     Dragging,
     Remove,
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
     public int combo = 0;
     public float comboTimer = 0f;
     public float comboDuration = 3f;
-    public GameState state = GameState.Normal;
+    public GameState state = GameState.Loading;
 
     [Header("Score & Combo UI (TMP)")]
     public TextMeshProUGUI text_PreScore;
@@ -63,21 +64,31 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetState(GameState.Normal);
+        SetState(GameState.Loading);
 
         slider_ComboTimer.gameObject.SetActive(false);
 
         score = 0;
-        time = 120;
+        time = 120;                
     }
+
 
     // Update is called once per frame
     void Update()
     {
+        if (state != GameState.Normal)
+            return;
+
         UpdateTime();
         CheckTimeOver();
         CheckCombo();
         ShortCutKeyDown();
+    }
+
+    public void GameStart()
+    {
+        SetState(GameState.Normal);
+        BtnInterOn();
     }
 
     public void ShortCutKeyDown()
@@ -91,6 +102,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && biteButton != null)
             biteButton.onClick.Invoke();
     }
+
     public void SetState(GameState newState)
     {
         state = newState;
@@ -118,6 +130,7 @@ public class GameManager : MonoBehaviour
             .SetTarget(score);
 
     }
+
     void UpdateCombo()
     {
         text_PreCombo.text = combo.ToString();
@@ -224,7 +237,7 @@ public class GameManager : MonoBehaviour
 
         UpdateCombo();
     }
-
+    
     public void playComboEffect(Vector3 pos)
     {        
         if (combo < 2)
@@ -245,5 +258,12 @@ public class GameManager : MonoBehaviour
         }
 
         Destroy(obj,1f);
+    }
+
+    public void BtnInterOn()
+    {
+        hintButton.interactable = true;
+        shakeButton.interactable = true;
+        biteButton.interactable = true;
     }
 }

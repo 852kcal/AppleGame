@@ -153,6 +153,11 @@ public class TargetBox : MonoBehaviour
             GridManager.Instance.RemoveApples(applesInBox);
             applesInBox.Clear();
 
+            if(GridManager.Instance.FindOneValidPackage() == null)
+            {
+
+            }
+
             return;
         }
 

@@ -29,41 +29,77 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CreateBoard();
+        gameField.transform.position = new Vector3(-(columns - 1) * cellWidth / 2f + 0.3f, -(rows - 1) * cellHeight / 2f, 0);
+    }
+
+    public void CreateBoard()
+    {
         appleGrid = new Apple[columns, rows];
 
         for (int i = 0; i < columns; i++)
         {
             for (int j = 0; j < rows; j++)
             {
-                Apple apple = Instantiate(applePrefab, new Vector3(i * cellWidth, j * cellHeight, 0), Quaternion.identity, gameField.transform).GetComponent<Apple>();
+                Apple apple = Instantiate(applePrefab, gameField.transform).GetComponent<Apple>();
+
+                apple.transform.localPosition = new Vector3(i * cellWidth, j * cellHeight, 0);
+
                 apple.gridPos = new Vector2Int(i, j);
                 appleGrid[i, j] = apple;
                 AppleSpawnJuicy(apple.transform);
             }
         }
-        gameField.transform.position = new Vector3(-(columns - 1) * cellWidth / 2f + 0.3f, -(rows - 1) * cellHeight / 2f, 0);
+
+        if (!HasValidPackage())
+        {
+            RerollNumbers();
+        }
+    }
+
+    public void ClearBoard()
+    {
+        for (int i = 0; i < columns; i++)
+        {
+            for (int j = 0; j < rows; j++)
+            {
+                if (appleGrid[i, j] != null)
+                {
+                    appleGrid[i, j].transform.DOKill(); 
+                    Destroy(appleGrid[i, j].gameObject);
+                    appleGrid[i, j] = null;
+                }
+            }
+        }
+    }
+    private IEnumerator ResetBoardRoutine()
+    {
+        Debug.Log("더 이상 맞출 사과가 없습니다. 판을 리셋합니다!");
+
+        foreach(var apple in appleGrid)
+            RemoveApple(apple);
+
+        yield return new WaitForSeconds(1.0f);
+
+        ClearBoard();
+
+        yield return new WaitForSeconds(0.5f); 
+
+        CreateBoard(); 
     }
 
     public void AppleSpawnJuicy(Transform appleTransform)
     {
-        // 1. 초기화: 크기는 0, 위치는 살짝 아래에서 시작
         appleTransform.localScale = Vector3.zero;
         Vector3 originalScale = Vector3.one;
 
-        // 2. 시퀀스 생성 (연출들을 순서대로 배치)
         Sequence spawnSeq = DOTween.Sequence();
 
-        // [Step 1] 팍! 하고 커지면서 위로 길쭉하게 늘어남 (Stretch)
         spawnSeq.Append(appleTransform.DOScale(new Vector3(0.7f, 1.5f, 0.7f), 0.15f).SetEase(Ease.OutQuad));
 
-        // [Step 2] 다시 바닥으로 눌리면서 옆으로 퍼짐 (Squash)
         spawnSeq.Append(appleTransform.DOScale(new Vector3(1.3f, 0.7f, 1.3f), 0.1f).SetEase(Ease.OutQuad));
 
-        // [Step 3] 통~ 튕기며 원래 크기로 돌아옴 (Elastic 느낌)
         spawnSeq.Append(appleTransform.DOScale(originalScale, 0.2f).SetEase(Ease.OutBack));
-
-        // [추가 효과] 커질 때 살짝 위로 점프했다 내려오면 더 재밌음!
-        //appleTransform.DOJump(appleTransform.position, 0.5f, 1, 0.45f);
     }
 
     public Apple GetApple(int x, int y)
@@ -95,6 +131,16 @@ public class GridManager : MonoBehaviour
         {
             RemoveApple(apple);
         }
+
+        if (!HasValidPackage())
+        {
+            StartCoroutine(ResetBoardRoutine());
+        }
+    }
+
+    public void ResetBoardTest()
+    {
+        StartCoroutine(ResetBoardRoutine());
     }
 
     public void RemoveApple(Apple apple)
@@ -162,7 +208,8 @@ public class GridManager : MonoBehaviour
                     apple.SetNumber();
             }
 
-            vaild = FindOneValidPackage().Count > 0;
+
+            vaild = HasValidPackage();            
         }
     }
 
