@@ -145,6 +145,9 @@ public class GridManager : MonoBehaviour
 
     public void RemoveApple(Apple apple)
     {
+        if (apple == null)
+            return;
+
         apple.transform.DOKill();
 
         appleGrid[apple.gridPos.x, apple.gridPos.y] = null;

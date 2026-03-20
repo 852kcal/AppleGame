@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,43 +6,35 @@ using UnityEngine.SceneManagement;
 
 public class MainSceneManager : MonoBehaviour
 {
-    static MainSceneManager instance;
-    public static MainSceneManager Instance
+    public static MainSceneManager Instance { get; private set; }
+
+    public CanvasGroup fadeCanvasGroup;
+    public float fadeDuration = 0.5f;
+
+    void Awake()
     {
-        get
+        if (Instance == null)
         {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<MainSceneManager>();
-                DontDestroyOnLoad(instance.gameObject);
-            }
-            return instance;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        
+        else
+        {
+            Destroy(gameObject); 
+        }
     }
-    // Start is called before the first frame update
-    void Start()
+    public void OnClickMainBtn() => StartCoroutine(FadeAndLoadScene("00_Main"));
+    public void OnClickStartBtn() => StartCoroutine(FadeAndLoadScene("01_Play"));
+    public void OnClickShopBtn() => StartCoroutine(FadeAndLoadScene("03_Shop"));
+    private IEnumerator FadeAndLoadScene(string sceneName)
     {
+        fadeCanvasGroup.blocksRaycasts = true; 
+        yield return fadeCanvasGroup.DOFade(1f, fadeDuration).WaitForCompletion();
 
-    }
+        SceneManager.LoadScene(sceneName);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void OnClickMainBtn()
-    {
-        LoadMainScene();
-    }
-    public void OnClickStartBtn()
-    {
-        LoadPlayScene();
-    }
-
-    public void OnClickShopBtn()
-    {
-        LoadShopScene();
+        yield return fadeCanvasGroup.DOFade(0f, fadeDuration).WaitForCompletion();
+        fadeCanvasGroup.blocksRaycasts = false;
     }
 
     public void OnClickExitBtn()
@@ -53,20 +46,5 @@ public class MainSceneManager : MonoBehaviour
         #endif
 
         Application.Quit();
-    }
-
-    void LoadMainScene()
-    {
-        SceneManager.LoadScene("00_Main");
-    }
-    
-    void LoadPlayScene()
-    {
-        SceneManager.LoadScene("01_Play");
-    }
-
-    void LoadShopScene()
-    {
-        SceneManager.LoadScene("03_Shop");
     }
 }
