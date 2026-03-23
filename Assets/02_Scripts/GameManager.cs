@@ -18,7 +18,6 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
-    // --- ΩÃ±€≈Ê ---
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -76,8 +75,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state != GameState.Normal)
-            return;
+        if (state == GameState.Loading || state == GameState.Shuffle)
+            return;              
 
         UpdateTime();
         CheckTimeOver();
@@ -188,7 +187,7 @@ public class GameManager : MonoBehaviour
 
                 break;
             case 1:
-                GridManager.Instance.RerollNumbers();
+                GridManager.Instance.PlayRerollAnimation();
                 break;
             case 2:
                 UseRemoveItem();                
@@ -265,5 +264,5 @@ public class GameManager : MonoBehaviour
         hintButton.interactable = true;
         shakeButton.interactable = true;
         biteButton.interactable = true;
-    }
+    }        
 }

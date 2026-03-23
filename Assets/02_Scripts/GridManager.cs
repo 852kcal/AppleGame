@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GridManager : MonoBehaviour
 {
@@ -76,6 +77,8 @@ public class GridManager : MonoBehaviour
     {
         Debug.Log("더 이상 맞출 사과가 없습니다. 판을 리셋합니다!");
 
+        GameManager.Instance.SetState(GameState.Loading);
+
         foreach(var apple in appleGrid)
             RemoveApple(apple);
 
@@ -85,7 +88,12 @@ public class GridManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f); 
 
-        CreateBoard(); 
+        CreateBoard();
+
+        yield return new WaitForSeconds(0.5f);
+
+        GameManager.Instance.SetState(GameState.Normal);
+
     }
 
     public void AppleSpawnJuicy(Transform appleTransform)
@@ -140,6 +148,7 @@ public class GridManager : MonoBehaviour
 
     public void ResetBoardTest()
     {
+
         StartCoroutine(ResetBoardRoutine());
     }
 
@@ -239,5 +248,38 @@ public class GridManager : MonoBehaviour
         }
 
         Destroy(split, 3f);
+    }
+
+    public void PlayRerollAnimation()
+    {
+        GameManager.Instance.SetState(GameState.Shuffle);
+        StartCoroutine(RerollSequenceRoutine());
+    }
+
+    private IEnumerator RerollSequenceRoutine()
+    {
+        Sequence outSeq = DOTween.Sequence();
+        foreach (Apple apple in appleGrid)
+        {
+            if (apple != null)
+            {
+                outSeq.Insert(0, apple.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack));
+            }
+        }
+
+        yield return outSeq.WaitForCompletion();
+
+        RerollNumbers();
+
+        foreach (Apple apple in appleGrid)
+        {
+            if (apple != null)
+            {
+                AppleSpawnJuicy(apple.transform);
+            }
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.SetState(GameState.Normal);
     }
 }
