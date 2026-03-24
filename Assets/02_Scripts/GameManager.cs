@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public enum GameState
 {
+    Main,
     Loading,
     Normal,
     Dragging,
@@ -200,6 +201,7 @@ public class GameManager : MonoBehaviour
     public void UseRemoveItem()
     {
         SetState(GameState.Remove);
+        GameUIManager.Instance.NoticeUpdate("SELECT MODE ACTIVE.\r\nTAP AN APPLE TO REMOVE IT.");
     }
 
     public void CheckCombo()

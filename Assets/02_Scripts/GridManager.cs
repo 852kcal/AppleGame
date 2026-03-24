@@ -75,7 +75,8 @@ public class GridManager : MonoBehaviour
     }
     private IEnumerator ResetBoardRoutine()
     {
-        Debug.Log("더 이상 맞출 사과가 없습니다. 판을 리셋합니다!");
+        //Debug.Log("더 이상 맞출 사과가 없습니다. 판을 리셋합니다!");
+        GameUIManager.Instance.NoticeUpdate("NO VALID MOVES AVAILABLE.\r\nRESETTING BOARD...");
 
         GameManager.Instance.SetState(GameState.Loading);
 

@@ -36,6 +36,7 @@ public class GameUIManager : MonoBehaviour
     private void PlayPulleyAnimation()
     {
         noticeBoard.DOKill();
+
         noticeBoard.anchoredPosition = new Vector2(0f, startY);
         noticeBoard.localEulerAngles = new Vector3(0f, 0f, -4f);
 
