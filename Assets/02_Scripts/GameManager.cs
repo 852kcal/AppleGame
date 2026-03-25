@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 public enum GameState
 {
@@ -45,10 +46,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI text_PreCombo;
     public TextMeshProUGUI text_MaxCombo;
 
-    [Header("Game Over UI")]
-    public Text text_GameOverScore; // 일반 UI Text
-    public GameObject panel_GameOver;
-
     [Header("Progress Bars")]
     public Slider slider_Timer;
     public Slider slider_ComboTimer;
@@ -61,9 +58,20 @@ public class GameManager : MonoBehaviour
     public Button shakeButton;  // 단축키 2
     public Button biteButton;   // 단축키 3
 
+    [Header("Post Processing")]
+    public PostProcessVolume postVolume;
+    private Vignette vignette;
+
+    [Header("Cursor")]
+
+    public Texture2D removeCursor;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (postVolume != null)
+            postVolume.profile.TryGetSettings(out vignette);
+
         SetState(GameState.Loading);
 
         slider_ComboTimer.gameObject.SetActive(false);
@@ -163,10 +171,17 @@ public class GameManager : MonoBehaviour
 
         SetState(GameState.GameOver);
 
-        panel_GameOver.SetActive(true);
-        text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("[00.00]");        
+        GameUIManager.Instance.ShowResultBoard();
+                
+        //text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("[00.00]");        
     }
+    public void FadeVignette(float targetIntensity, float duration)
+    {
+        if (vignette == null) return;
 
+        DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, targetIntensity, duration)
+               .SetEase(Ease.OutCubic); 
+    }
     public void UseItem(ItemData data)
     {
         data.amount--;
@@ -202,6 +217,15 @@ public class GameManager : MonoBehaviour
     {
         SetState(GameState.Remove);
         GameUIManager.Instance.NoticeUpdate("SELECT MODE ACTIVE.\r\nTAP AN APPLE TO REMOVE IT.");
+        FadeVignette(0.45f, 0.5f); 
+        Vector2 hotSpot = new Vector2(removeCursor.width / 2, removeCursor.height / 2);
+        Cursor.SetCursor(removeCursor, hotSpot, CursorMode.Auto);
+    }
+    public void EndRemoveItem()
+    {
+        SetState(GameState.Normal);
+        FadeVignette(0f, 0.3f); 
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
     public void CheckCombo()

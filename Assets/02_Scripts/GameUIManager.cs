@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 public class GameUIManager : MonoBehaviour
@@ -13,6 +14,9 @@ public class GameUIManager : MonoBehaviour
 
     public RectTransform noticeBoard;
     public RectTransform resultBoard;
+
+    public Button restart_Btn;
+    public Button main_Btn;
 
     public TextMeshProUGUI text_Notice;
         
@@ -35,7 +39,8 @@ public class GameUIManager : MonoBehaviour
 
     private void Start()
     {
-        
+        restart_Btn.onClick.AddListener(() => MainSceneManager.Instance.OnClickStartBtn());
+        main_Btn.onClick.AddListener(() => MainSceneManager.Instance.OnClickMainBtn());
     }
 
     public void NoticeUpdate(string text)
@@ -74,7 +79,7 @@ public class GameUIManager : MonoBehaviour
         backGround.alpha = 0f;
         backGround.gameObject.SetActive(true);
 
-        backGround.DOFade(0.7f, dropDuration * 0.5f).SetUpdate(true);
+        backGround.DOFade(0.8f, dropDuration * 0.5f).SetUpdate(true);
 
         resultBoard.DOAnchorPosY(   0, dropDuration)
             .SetEase(Ease.OutBounce)
@@ -105,5 +110,23 @@ public class GameUIManager : MonoBehaviour
         backGround.DOFade(0f, dropDuration * 0.5f)
             .SetUpdate(true)
             .OnComplete(() => backGround.gameObject.SetActive(false));
+    }
+
+    private void OnDestroy()
+    {
+        if (resultBoard != null)
+        {
+            DOTween.Kill(resultBoard);
+        }
+
+        if (swingSequence != null)
+        {
+            swingSequence.Kill();
+        }
+
+        if (backGround != null)
+        {
+            DOTween.Kill(backGround);
+        }
     }
 }

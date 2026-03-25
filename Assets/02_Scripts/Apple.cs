@@ -23,9 +23,7 @@ public class Apple : MonoBehaviour
     private void Awake()
     {
         outline = GetComponentInChildren<Outline>();
-
-        outline.OutlineColor = Color.yellow;
-        outline.OutlineWidth = outlineWidth;
+        SetDefaultOutline();
     }
 
     // Start is called before the first frame update
@@ -40,6 +38,12 @@ public class Apple : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetDefaultOutline()
+    {
+        outline.OutlineColor = Color.yellow;
+        outline.OutlineWidth = outlineWidth;
     }
 
     public void SetNumber()
@@ -76,8 +80,25 @@ public class Apple : MonoBehaviour
         if (GameManager.Instance.state == GameState.Remove)
         {
             GridManager.Instance.RemoveApple(this);
-            GameManager.Instance.SetState(GameState.Normal);
+            GameManager.Instance.EndRemoveItem();
         } 
     }
-    
+
+    private void OnMouseOver()
+    {
+        if (GameManager.Instance.state != GameState.Remove)
+            return;
+
+        outline.OutlineColor = Color.blue;
+        OnOutline();
+    }
+    private void OnMouseExit()
+    {
+        if (GameManager.Instance.state != GameState.Remove)
+            return;
+
+        SetDefaultOutline();
+        OffOutline();
+    }
+
 }
