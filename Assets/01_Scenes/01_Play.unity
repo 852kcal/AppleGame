@@ -2604,14 +2604,13 @@ MonoBehaviour:
   text_Timer: {fileID: 1143741624}
   text_PreCombo: {fileID: 2047699064}
   text_MaxCombo: {fileID: 1252788990}
-  text_GameOverScore: {fileID: 0}
-  panel_GameOver: {fileID: 0}
   slider_Timer: {fileID: 694452930}
   slider_ComboTimer: {fileID: 2030529580}
   comboEffect: {fileID: 3294074659011323174, guid: 929cd8b6bcc700a4aa04790de10f54ca, type: 3}
   hintButton: {fileID: 514887592}
   shakeButton: {fileID: 91352848}
   biteButton: {fileID: 888179477}
+  settingButton: {fileID: 1400713000}
   postVolume: {fileID: 519420033}
   removeCursor: {fileID: 2800000, guid: 8ef38263135c0b74fb98a79bbb968cb2, type: 3}
 --- !u!4 &890833385
@@ -3964,7 +3963,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3978,7 +3977,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1400713001}
   m_OnClick:
     m_PersistentCalls:
@@ -4591,7 +4590,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 1022483761
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1650301024
@@ -6269,7 +6268,10 @@ MonoBehaviour:
   resultBoard: {fileID: 1430920022}
   restart_Btn: {fileID: 1904438561}
   main_Btn: {fileID: 1921875814}
+  result_Close_Btn: {fileID: 117583263}
   text_Notice: {fileID: 1534829488}
+  text_ResultTitle: {fileID: 432304284}
+  text_Result: {fileID: 1327655633}
 --- !u!1 &2126633403
 GameObject:
   m_ObjectHideFlags: 0

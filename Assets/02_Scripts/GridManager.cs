@@ -260,10 +260,15 @@ public class GridManager : MonoBehaviour
     private IEnumerator RerollSequenceRoutine()
     {
         Sequence outSeq = DOTween.Sequence();
+
         foreach (Apple apple in appleGrid)
         {
             if (apple != null)
             {
+                apple.transform.DOKill();
+
+                apple.transform.localScale = Vector3.one;
+
                 outSeq.Insert(0, apple.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack));
             }
         }

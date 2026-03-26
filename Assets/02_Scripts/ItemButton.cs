@@ -11,10 +11,17 @@ public class ItemButton : MonoBehaviour
 
     private CanvasGroup cg;
 
+    private Vector3 originalPos;
+    private Vector3 originalScale;
+
     // Start is called before the first frame update
     void Start()
     {
         cg = GetComponent<CanvasGroup>();
+        
+        originalPos = transform.localPosition;
+        originalScale = transform.localScale;
+
         UpdateUI();        
     }
 
@@ -53,7 +60,10 @@ public class ItemButton : MonoBehaviour
     public void OnClickEffect()
     {
         transform.DOKill();
-                
+
+        transform.localPosition = originalPos;
+        transform.localScale = originalScale;
+
         transform.DOPunchScale(new Vector3(-0.05f, -0.05f, 0), 0.1f);
 
         transform.DOPunchPosition(Vector3.down * 10f, 0.2f, 0, 0);

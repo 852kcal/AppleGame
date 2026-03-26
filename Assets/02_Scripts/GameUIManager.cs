@@ -17,8 +17,11 @@ public class GameUIManager : MonoBehaviour
 
     public Button restart_Btn;
     public Button main_Btn;
+    public Button result_Close_Btn;
 
     public TextMeshProUGUI text_Notice;
+    public TextMeshProUGUI text_ResultTitle;
+    public TextMeshProUGUI text_Result;
         
     private float notice_targetY = 0f;
     private float notice_startY = 1000f;
@@ -29,6 +32,8 @@ public class GameUIManager : MonoBehaviour
     private float resut_startY = 1500f;
 
     private Sequence swingSequence;
+
+    private bool isAnimating = false;
 
     public static GameUIManager Instance { get { return instance; } }
     private void Awake()
@@ -69,10 +74,34 @@ public class GameUIManager : MonoBehaviour
 
     public void ShowResultBoard()
     {
+        if(GameManager.Instance.state == GameState.GameOver)
+        {
+            result_Close_Btn.gameObject.SetActive(false);
+
+            text_ResultTitle.text = "RESULT";
+        }
+        else
+        {
+            text_ResultTitle.text = "MENU";
+            if (isAnimating)
+                return;
+        }
+
+        text_Result.text = "SCORE : " + GameManager.Instance.GetScore().ToString("N0");
+        text_Result.text += "\nMAX COMBO : " + GameManager.Instance.GetMaxCombo().ToString("N0");
+
         DOTween.Kill(resultBoard);
         DOTween.Kill(backGround);
 
         swingSequence?.Kill();
+
+        if (GameManager.Instance.state != GameState.GameOver && backGround.gameObject.activeSelf)
+        {
+            HideMenu();
+            return;
+        }
+
+        isAnimating = true;
 
         resultBoard.anchoredPosition = new Vector2(resultBoard.anchoredPosition.x, resut_startY);
         resultBoard.rotation = Quaternion.identity;
@@ -87,6 +116,7 @@ public class GameUIManager : MonoBehaviour
             .OnComplete(() =>
             {
                 StartSwinging();
+                isAnimating = false;
             });
     }
 
@@ -101,15 +131,20 @@ public class GameUIManager : MonoBehaviour
 
     public void HideMenu()
     {
+        isAnimating = true;
         swingSequence?.Kill();
 
         resultBoard.DOAnchorPosY(resut_startY, dropDuration * 0.5f)
-            .SetEase(Ease.InBack)
+            .SetEase(Ease.InBack, 0.8f)
             .SetUpdate(true);
 
         backGround.DOFade(0f, dropDuration * 0.5f)
             .SetUpdate(true)
-            .OnComplete(() => backGround.gameObject.SetActive(false));
+            .OnComplete(() =>
+            {
+                backGround.gameObject.SetActive(false);
+                isAnimating = false;
+            });
     }
 
     private void OnDestroy()

@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Game Data & Logic")]
+    private int bestScore = 0;
+    private int bestCombo = 0;
     private int score = 0;
     private float time = 0f;    
     private int maxCombo = 0;
@@ -54,21 +56,24 @@ public class GameManager : MonoBehaviour
     public GameObject comboEffect;
 
     [Header("Item Buttons (Shortcuts)")]
-    public Button hintButton;   // 단축키 1
-    public Button shakeButton;  // 단축키 2
-    public Button biteButton;   // 단축키 3
+    public Button hintButton;   // 단축키 q
+    public Button shakeButton;  // 단축키 w
+    public Button biteButton;   // 단축키 e
+    public Button settingButton;// 단축키 esc
 
     [Header("Post Processing")]
     public PostProcessVolume postVolume;
     private Vignette vignette;
 
     [Header("Cursor")]
-
     public Texture2D removeCursor;
 
     // Start is called before the first frame update
     void Start()
     {
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        bestCombo = PlayerPrefs.GetInt("BestCombo", 0);
+
         if (postVolume != null)
             postVolume.profile.TryGetSettings(out vignette);
 
@@ -84,13 +89,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == GameState.Loading || state == GameState.Shuffle)
+        if (state == GameState.Loading || state == GameState.Shuffle || state == GameState.GameOver)
             return;              
 
         UpdateTime();
         CheckTimeOver();
         CheckCombo();
         ShortCutKeyDown();
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    public int GetMaxCombo()
+    {
+        return maxCombo;
     }
 
     public void GameStart()
@@ -109,6 +124,9 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && biteButton != null)
             biteButton.onClick.Invoke();
+
+        if (Input.GetKeyDown(KeyCode.Escape) && settingButton != null)
+            settingButton.onClick.Invoke();
     }
 
     public void SetState(GameState newState)
@@ -125,18 +143,20 @@ public class GameManager : MonoBehaviour
     void UpdateScore(int s)
     {
         text_PlusScore.text = "+" + s.ToString("N0");
-        //text_PreScore.text = score.ToString("N0");
-
         int disScore = score - s;
 
         text_PreScore.DOKill();
+        text_PreScore.transform.DOKill(); 
+        
+        text_PreScore.transform.localScale = Vector3.one;
 
         DOTween.To(() => disScore, x => disScore = x, score, 0.5f)
             .OnUpdate(() => {
                 text_PreScore.text = disScore.ToString("N0"); // 천 단위 쉼표
             })
-            .SetTarget(score);
+            .SetTarget(text_PreScore);
 
+        text_PreScore.transform.DOPunchScale(new Vector3(0.5f, 0.5f, 0.5f), 0.5f, 2, 0.5f);
     }
 
     void UpdateCombo()
@@ -165,15 +185,25 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    void GameOver()
+    public void GameOver()
     {
-        Debug.Log("Game Over!");
-
         SetState(GameState.GameOver);
 
-        GameUIManager.Instance.ShowResultBoard();
-                
-        //text_GameOverScore.text = "최종 점수: " + score + "남은 시간: " + time.ToString("[00.00]");        
+        if(score > bestScore)
+        {
+            bestScore = score;
+            PlayerPrefs.SetInt("BestScore", bestScore);
+        }
+
+        if(maxCombo > bestCombo)
+        {
+            bestCombo = maxCombo;
+            PlayerPrefs.SetInt("BestCombo", bestCombo);
+        }
+
+        PlayerPrefs.Save();
+
+        GameUIManager.Instance.ShowResultBoard();                   
     }
     public void FadeVignette(float targetIntensity, float duration)
     {
@@ -290,5 +320,6 @@ public class GameManager : MonoBehaviour
         hintButton.interactable = true;
         shakeButton.interactable = true;
         biteButton.interactable = true;
+        settingButton.interactable = true;
     }        
 }

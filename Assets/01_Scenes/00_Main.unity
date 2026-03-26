@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01646fe78aab1c346b76ff48de1709ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text_BestScore: {fileID: 935169213}
+  text_BestCombo: {fileID: 527589790}
   start_Btn: {fileID: 1709062725}
   shop_Btn: {fileID: 1627567264}
   exit_Btn: {fileID: 2085486674}
@@ -2895,7 +2897,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1627567265}
   m_OnClick:
     m_PersistentCalls:
