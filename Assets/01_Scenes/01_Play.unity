@@ -2613,6 +2613,7 @@ MonoBehaviour:
   settingButton: {fileID: 1400713000}
   postVolume: {fileID: 519420033}
   removeCursor: {fileID: 2800000, guid: 8ef38263135c0b74fb98a79bbb968cb2, type: 3}
+  mountainKingBGM: {fileID: 8300000, guid: ea033c6d47a689843bb8b0a028b8607a, type: 3}
 --- !u!4 &890833385
 Transform:
   m_ObjectHideFlags: 0

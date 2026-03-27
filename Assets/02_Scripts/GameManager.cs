@@ -68,6 +68,9 @@ public class GameManager : MonoBehaviour
     [Header("Cursor")]
     public Texture2D removeCursor;
 
+    [Header("Sound Clip")]
+    [SerializeField] private AudioClip mountainKingBGM;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -111,6 +114,12 @@ public class GameManager : MonoBehaviour
     public void GameStart()
     {
         SetState(GameState.Normal);
+        
+        if (mountainKingBGM != null && SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayBGM(mountainKingBGM);
+        }
+
         BtnInterOn();
     }
 

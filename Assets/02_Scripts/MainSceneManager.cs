@@ -33,6 +33,8 @@ public class MainSceneManager : MonoBehaviour
 
         SceneManager.LoadScene(sceneName);
 
+        SoundManager.Instance.StopBgm();
+
         yield return fadeCanvasGroup.DOFade(0f, fadeDuration).WaitForCompletion();
         fadeCanvasGroup.blocksRaycasts = false;
     }
