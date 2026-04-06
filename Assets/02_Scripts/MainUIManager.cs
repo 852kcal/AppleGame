@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,7 +12,16 @@ public class MainUIManager : MonoBehaviour
 
     public Button start_Btn;
     public Button shop_Btn;
+    public Button setting_Btn;
     public Button exit_Btn;
+
+    public CanvasGroup backGround;
+
+    public GameObject settingBoard;
+
+    public Slider masterSlider;
+    public Slider musicSlider;
+    public Slider sfxSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +30,7 @@ public class MainUIManager : MonoBehaviour
 
         start_Btn.onClick.AddListener(() => MainSceneManager.Instance.OnClickStartBtn());
         shop_Btn.onClick.AddListener(() => MainSceneManager.Instance.OnClickShopBtn());
+        setting_Btn.onClick.AddListener(() => OnClickSettingBtn());
         exit_Btn.onClick.AddListener(() => MainSceneManager.Instance.OnClickExitBtn());
     }
 
@@ -36,5 +47,38 @@ public class MainUIManager : MonoBehaviour
 
         text_BestScore.text = "BEST SCORE\n" + savedBest.ToString("N0");
         text_BestCombo.text = "BEST COMBO\n" + savedCombo.ToString("N0");
+    }
+
+    public void OnClickSettingBtn()
+    {
+        DOTween.Kill(backGround);
+
+        backGround.alpha = 0f;
+        backGround.gameObject.SetActive(true);
+
+        settingBoard.SetActive(true);
+
+        backGround.DOFade(0.8f, 0.5f).SetUpdate(true);
+    }
+
+    public void OnClickSettingCloseBtn()
+    {
+        settingBoard.SetActive(false);
+
+        DOTween.Kill(backGround);
+
+        backGround.DOFade(0f, 0.5f)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                backGround.gameObject.SetActive(false);
+            });
+    }
+
+    public void OnClickSettingSaveBtn()
+    {
+
+
+        OnClickSettingCloseBtn();
     }
 }

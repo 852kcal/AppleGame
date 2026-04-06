@@ -26,6 +26,8 @@ public class MainSceneManager : MonoBehaviour
     public void OnClickMainBtn() => StartCoroutine(FadeAndLoadScene("00_Main"));
     public void OnClickStartBtn() => StartCoroutine(FadeAndLoadScene("01_Play"));
     public void OnClickShopBtn() => StartCoroutine(FadeAndLoadScene("03_Shop"));
+        
+
     private IEnumerator FadeAndLoadScene(string sceneName)
     {
         fadeCanvasGroup.blocksRaycasts = true; 
