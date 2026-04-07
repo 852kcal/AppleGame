@@ -71,6 +71,8 @@ public class GameManager : MonoBehaviour
     [Header("Sound Clip")]
     [SerializeField] private AudioClip mountainKingBGM;
 
+
+    private Tween vignetteTween;
     // Start is called before the first frame update
     void Start()
     {
@@ -218,7 +220,12 @@ public class GameManager : MonoBehaviour
     {
         if (vignette == null) return;
 
-        DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, targetIntensity, duration)
+        if (vignetteTween != null && vignetteTween.IsActive())
+        {
+            vignetteTween.Kill();
+        }
+
+        vignetteTween = DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, targetIntensity, duration)
                .SetEase(Ease.OutCubic); 
     }
     public void UseItem(ItemData data)
