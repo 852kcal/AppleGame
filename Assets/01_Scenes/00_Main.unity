@@ -162,9 +162,6 @@ MonoBehaviour:
   exit_Btn: {fileID: 2085486674}
   backGround: {fileID: 1964040844}
   settingBoard: {fileID: 1777604805}
-  masterSlider: {fileID: 0}
-  musicSlider: {fileID: 0}
-  sfxSlider: {fileID: 0}
   masterSlider: {fileID: 558993299}
   musicSlider: {fileID: 609676465}
   sfxSlider: {fileID: 407079793}
