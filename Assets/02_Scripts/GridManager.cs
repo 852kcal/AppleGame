@@ -131,7 +131,6 @@ public class GridManager : MonoBehaviour
 
         int x = Mathf.RoundToInt(localPos.x / cellWidth);
         int y = Mathf.RoundToInt(localPos.y / cellHeight);
-
         return new Vector2Int(x, y);
     }
 

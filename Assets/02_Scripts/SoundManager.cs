@@ -9,32 +9,44 @@ public class SoundManager : MonoBehaviour
 
     [Header("Audio Sources")]
     [SerializeField] private AudioSource bgmSource;
-    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource sfxSource; 
     [SerializeField] private AudioSource ambientSource;
 
     [Header("Audio Mixer")]
     [SerializeField] private AudioMixer masterMixer;
 
-    public const string MASTER_VOLUME_KEY = "MASTERVolume";
-    public const string BGM_VOLUME_KEY = "BGMVolume";
-    public const string SFX_VOLUME_KEY = "SFXVolume";
+    private const string BGM_VOLUME_KEY = "BGMVolume";
+    private const string SFX_VOLUME_KEY = "SFXVolume";
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
             Destroy(gameObject);
         }
     }
-
     private void Start()
     {
-        ApplyAllVolumes();
+        float savedBGMVolume = PlayerPrefs.GetFloat(BGM_VOLUME_KEY, 0.75f);
+        float savedSFXVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 0.75f);
+
+        /*
+        if (bgmSlider != null) bgmSlider.value = savedBGMVolume;
+        if (sfxSlider != null) sfxSlider.value = savedSFXVolume;
+        */
+
+        SetBgmVolume(savedBGMVolume);
+        SetSfxVolume(savedSFXVolume);
+
+        /*
+        if (bgmSlider != null) bgmSlider.onValueChanged.AddListener(SetBgmVolume);
+        if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(SetSfxVolume);
+        */
     }
 
     public void PlayBGM(AudioClip clip)
@@ -55,36 +67,28 @@ public class SoundManager : MonoBehaviour
         ambientSource.loop = true;
         ambientSource.Play();
     }
-
     public void StopAmbient()
     {
         ambientSource.Stop();
     }
 
+    public void SetBgmVolume(float volume)
+    {
+        float dbVolume = Mathf.Log10(Mathf.Max(volume, 0.0001f)) * 20f;
+        masterMixer.SetFloat("BGMVol", dbVolume);
+        PlayerPrefs.SetFloat(BGM_VOLUME_KEY, volume);
+    }
+
+    public void SetSfxVolume(float volume)
+    {
+        float dbVolume = Mathf.Log10(Mathf.Max(volume, 0.0001f)) * 20f;
+        masterMixer.SetFloat("SFXVol", dbVolume);
+        PlayerPrefs.SetFloat(SFX_VOLUME_KEY, volume);
+    }
+
     public void StopBgm()
     {
         bgmSource.Stop();
-    }
-
-    public void SetVolume(string parameterName, float volume)
-    {
-        float dbVolume = Mathf.Log10(Mathf.Max(volume, 0.0001f)) * 20f;
-        masterMixer.SetFloat(parameterName, dbVolume);
-    }
-
-    public void ApplyAllVolumes()
-    {
-        SetVolume("MASTERVol", PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, 0.8f));
-        SetVolume("BGMVol", PlayerPrefs.GetFloat(BGM_VOLUME_KEY, 1f));
-        SetVolume("SFXVol", PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1f));
-    }
-
-    public void SaveVolume(float master, float bgm, float sfx)
-    {
-        PlayerPrefs.SetFloat(MASTER_VOLUME_KEY, master);
-        PlayerPrefs.SetFloat(BGM_VOLUME_KEY, bgm);
-        PlayerPrefs.SetFloat(SFX_VOLUME_KEY, sfx);
-        PlayerPrefs.Save();
     }
 
     private void OnApplicationQuit()

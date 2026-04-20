@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "\uBC14\uAD6C\uB2C8 \uC11E\uAE30"
   itemIndex: 1
-  amount: 10
+  amount: 100
   itemIcon: {fileID: -1057805416, guid: aea24efd89778274882b0a0424163bd8, type: 3}
   description: "\uBAA8\uB4E0 \uC22B\uC790\uB97C \uC0C8\uB86D\uAC8C \uBB34\uC791\uC704\uB85C
     \uBCC0\uACBD"
