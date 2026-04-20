@@ -277,7 +277,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1007152147719549167, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
       propertyPath: m_Name
-      value: Apple_Red_Half
+      value: Apple_Red
       objectReference: {fileID: 0}
     - target: {fileID: 1007152147719549167, guid: 8b5971faa46e5f1448299258de3cc560, type: 3}
       propertyPath: m_TagString
